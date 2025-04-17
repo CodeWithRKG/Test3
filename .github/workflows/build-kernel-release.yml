@@ -1,4 +1,4 @@
-name: Latest_Sysfs_Kernel_Release
+1| name: Build and Release OnePlus Kernels
 
 permissions:
   contents: write
