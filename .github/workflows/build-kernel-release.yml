@@ -1,4 +1,4 @@
-name: Release to Repo
+name: Release to Repo with BBR
 
 permissions:
   contents: write
@@ -25,7 +25,7 @@ jobs:
             manifest: oneplus_nord_4_v.xml
             android_version: android14
             kernel_version: "6.1"
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/build.yml
     secrets: inherit
     with:
       model: ${{ matrix.model }}
@@ -44,7 +44,7 @@ jobs:
       REPO_OWNER: CodeWithRKG
       REPO_NAME: Test3
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE_NAME: "Susfs Patched Kernels With KernelSU Next"
+      RELEASE_NAME: "*Susfs Patched Kernels With KernelSU Next and BBR*"
       RELEASE_NOTES: |
         This release contains KernelSU Next and SUSFS v1.5.5
 
@@ -59,7 +59,8 @@ jobs:
 
         Features:
         [+] KernelSU-Next
-        [+] Magic Mount Support
+        [+] SUSFS v1.5.5
+        [+] BBR
 
     steps:
       - name: Checkout code
