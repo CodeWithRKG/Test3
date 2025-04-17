@@ -23,7 +23,7 @@ jobs:
             soc: pineapple
             branch: oneplus/sm7675
             manifest: oneplus_nord_4_v.xml
-            android_version: android15
+            android_version: android14
             kernel_version: "6.1"
     uses: ./.github/workflows/main.yml
     secrets: inherit
