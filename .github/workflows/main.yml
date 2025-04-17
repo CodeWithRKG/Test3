@@ -82,13 +82,21 @@ jobs:
           mkdir -p "builds/${ROOT_DIR}"
           cd "builds/${ROOT_DIR}"
       # 7. Clone required repositories (using shallow clone for speed)
-      - name: Clone Required Repositories
-        working-directory: builds/${{ env.ROOT_DIR }}
+      - name: Clone AnyKernel3 and Other Dependencies
         run: |
-          repos=(
-            "https://github.com/Kernel-SU/AnyKernel3 --depth=1"
-            "https://gitlab.com/simonpunk/susfs4ksu.git -b gki-android14-6.1 --depth=1"
-            "https://github.com/WildPlusKernel/kernel_patches.git --depth=1"
+          echo "Cloning AnyKernel3 and other dependencies..."
+          
+          ANYKERNEL_BRANCH="gki-2.0"
+          SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
+
+          # Debug print the branches
+          echo "Using branch for AnyKernel3: $ANYKERNEL_BRANCH"
+          echo "Using branch for SUSFS: $SUSFS_BRANCH"
+
+          # Clone repositories using the branch names
+          git clone https://github.com/TheWildJames/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
+          git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
+          git clone https://github.com/TheWildJames/kernel_patches.git
           )
           for repo in "${repos[@]}"; do
             echo "Cloning ${repo}"
