@@ -1,10 +1,30 @@
 name: Latest_Susfs_Kernel_Nord_4
 
+permissions:
+  contents: write  # Allow writing to repository contents (for pushing tags)
+  actions: write   # Allows triggering actions
+
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_call: # This allows this workflow to be called from another workflow
+    inputs:
+      model:
+        required: true
+        type: string
+      soc:
+        required: true
+        type: string
+      branch:
+        required: true
+        type: string
+      manifest:
+        required: true
+        type: string
+      android_version:
+        required: true
+        type: string
+      kernel_version:
+        required: true
+        type: string
 
 env:
   TZ: Asia/Kolkata
