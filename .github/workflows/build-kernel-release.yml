@@ -100,6 +100,7 @@ jobs:
               fi
               echo "Uploading $file..."
               gh release upload ${{ env.NEW_TAG }} "$file"
+              done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_TAG: ${{ env.NEW_TAG }}
