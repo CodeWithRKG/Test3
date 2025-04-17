@@ -4,6 +4,14 @@ permissions:
   contents: write
   actions: write
 
+
+on:
+  workflow_call:
+    inputs:
+      example_input:
+        description: 'An example input'
+        required: false
+        default: 'default-value'
 on:
   workflow_dispatch:
     inputs:
