@@ -23,7 +23,7 @@ jobs:
             soc: pineapple
             branch: oneplus/sm7675
             manifest: oneplus_nord_4_v.xml
-            android_version: android14
+            android_version: android15
             kernel_version: "6.1"
     uses: ./.github/workflows/build.yml
     secrets: inherit
@@ -47,6 +47,9 @@ jobs:
       RELEASE_NAME: "*TEST BUILD* OnePlus Kernels With KernelSU Next & SUSFS v1.5.5 *TEST BUILD*"
       RELEASE_NOTES: |
         This release contains KernelSU Next and SUSFS v1.5.5
+
+        Kernel Flasher: 
+        -> https://github.com/fatalcoder524/KernelFlasher
 
         Module: 
         -> https://github.com/sidex15/ksu_module_susfs
