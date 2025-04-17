@@ -1,4 +1,4 @@
-name: OnePlus Nord 4 Susfs Kernel
+name: Release to Repo
 
 permissions:
   contents: write
@@ -19,13 +19,13 @@ jobs:
       fail-fast: false
       matrix:
         include:          
-          - model: OP-NORD-4
+          - model: OP-NORD4
             soc: pineapple
             branch: oneplus/sm7675
             manifest: oneplus_nord_4_v.xml
             android_version: android15
             kernel_version: "6.1"
-    uses: CodeWithRKG/Test3/.github/workflows/build.yml@main
+    uses: ./.github/workflows/main.yml
     secrets: inherit
     with:
       model: ${{ matrix.model }}
@@ -48,6 +48,9 @@ jobs:
       RELEASE_NOTES: |
         This release contains KernelSU Next and SUSFS v1.5.5
 
+        Kernel Flasher: 
+        -> https://github.com/fatalcoder524/KernelFlasher
+
         Module: 
         -> https://github.com/sidex15/ksu_module_susfs
 
@@ -56,10 +59,6 @@ jobs:
 
         Features:
         [+] KernelSU-Next
-        [+] SUSFS v1.5.5
-        [+] Wireguard Support
-        [+] Maphide LineageOS Detections
-        [+] Futile Maphide for jit-zygote-cache Detections
         [+] Magic Mount Support
 
     steps:
@@ -87,7 +86,7 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.NEW_TAG }}
-          prerelease: true
+          prerelease: false
           release_name: ${{ env.RELEASE_NAME }}
           body: ${{ env.RELEASE_NOTES }}
         env:
