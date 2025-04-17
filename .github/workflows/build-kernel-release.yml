@@ -1,4 +1,4 @@
-name: Build and Release OnePlus Kernels
+name: OnePlus Nord 4 Susfs Kernel
 
 permissions:
   contents: write
@@ -13,6 +13,28 @@ on:
         type: boolean
         default: true
 
+jobs:
+  build-batch-1: 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:          
+          - model: OP-NORD-4
+            soc: pineapple
+            branch: oneplus/sm7675
+            manifest: oneplus_nord_4_v.xml
+            android_version: android15
+            kernel_version: "6.1"
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+    with:
+      model: ${{ matrix.model }}
+      soc: ${{ matrix.soc }}
+      branch: ${{ matrix.branch }}
+      manifest: ${{ matrix.manifest }}
+      android_version: ${{ matrix.android_version }}
+      kernel_version: ${{ matrix.kernel_version }}
+
   trigger-release:
     needs:
       - build-batch-1      
@@ -20,14 +42,11 @@ on:
     if: ${{ inputs.make_release }}
     env:
       REPO_OWNER: CodeWithRKG
-      REPO_NAME: Test3
+      REPO_NAME: OnePlus_KernelSU_SUSFS
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RELEASE_NAME: "*TEST BUILD* OnePlus Kernels With KernelSU Next & SUSFS v1.5.5 *TEST BUILD*"
       RELEASE_NOTES: |
         This release contains KernelSU Next and SUSFS v1.5.5
-
-        Kernel Flasher: 
-        -> https://github.com/fatalcoder524/KernelFlasher
 
         Module: 
         -> https://github.com/sidex15/ksu_module_susfs
@@ -67,3 +86,26 @@ on:
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
+          tag_name: ${{ env.NEW_TAG }}
+          prerelease: true
+          release_name: ${{ env.RELEASE_NAME }}
+          body: ${{ env.RELEASE_NOTES }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets Dynamically
+        run: |
+          for file in ./downloaded-artifacts/kernel-*/*; do
+              if [ -d "$file" ]; then
+                  continue
+              fi
+              echo "Uploading $file..."
+              gh release upload ${{ env.NEW_TAG }} "$file"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_TAG: ${{ env.NEW_TAG }}
+
+      - name: Display Files Uploaded
+        run: |
+          echo "GitHub release created with the following files:"
+          ls ./downloaded-artifacts/**/*
