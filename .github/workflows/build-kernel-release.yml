@@ -44,7 +44,7 @@ jobs:
       REPO_OWNER: CodeWithRKG
       REPO_NAME: Test3
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE_NAME: "*TEST BUILD* OnePlus Kernels With KernelSU Next & SUSFS v1.5.5 *TEST BUILD*"
+      RELEASE_NAME: "Susfs Patched Kernels With KernelSU Next"
       RELEASE_NOTES: |
         This release contains KernelSU Next and SUSFS v1.5.5
 
@@ -100,7 +100,7 @@ jobs:
               fi
               echo "Uploading $file..."
               gh release upload ${{ env.NEW_TAG }} "$file"
-              done
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_TAG: ${{ env.NEW_TAG }}
