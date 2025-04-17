@@ -1,4 +1,4 @@
-name: Latest_CI_Susfs_Kernel_Nord_4
+name: Latest_Susfs_Kernel_Nord_4
 
 permissions:
   contents: write  # Allow writing to repository contents (for pushing tags)
@@ -216,17 +216,19 @@ jobs:
             --ignore_missing_projects \
             -o "$(pwd)/out" || { echo "Bazel build failed"; exit 1; }
       # 14. Create the zip package containing the built kernel image
-      - name: Create ZIP Package
-        working-directory: builds/${{ env.ROOT_DIR }}
+      - name: Create ZIP Files for Different Formats
         run: |
-          if [ ! -f kernel_platform/oneplusNord4_v/kernel_platform/out/dist/Image ]; then
-            echo "❌ Kernel image not found"
-            exit 1
-          fi
-          cp kernel_platform/oneplusNord4_v/kernel_platform/out/dist/Image AnyKernel3/Image || { echo "❌ Failed to copy kernel image"; exit 1; }
-      # 15. Upload the generated zip file as an artifact
+          echo "Navigating to AnyKernel3 directory..."
+          cd ./AnyKernel3
+
+          # Zip the files in the AnyKernel3 directory with a new naming convention
+          ZIP_NAME="Susfs-Kernel_${{ env.KSUVER }}_${{ env.ROOT_DIR }}"
+          echo "Creating zip file $ZIP_NAME..."
+          zip -r "../$ZIP_NAME" ./*
+          
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Susfs-Kernel_${{ env.KSUVER }}_${{ env.ROOT_DIR }}
-          path: builds/${{ env.ROOT_DIR }}/AnyKernel3
+          name: kernel-${{ env.CONFIG }}
+          path: |
+            *.zip
