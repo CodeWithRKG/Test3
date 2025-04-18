@@ -97,11 +97,6 @@ jobs:
           git clone https://github.com/TheWildJames/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
           git clone https://github.com/TheWildJames/kernel_patches.git
-          )
-          for repo in "${repos[@]}"; do
-            echo "Cloning ${repo}"
-            git clone $repo || { echo "Failed to clone $repo"; exit 1; }
-          done
       # 8. Initialize and sync the kernel source via Repo tool
       - name: Setup Kernel Source
         working-directory: builds/${{ env.ROOT_DIR }}
